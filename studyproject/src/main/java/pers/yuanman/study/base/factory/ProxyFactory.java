@@ -33,7 +33,8 @@ public class ProxyFactory implements MethodInterceptor {
         System.out.println("开始事务...");
 
         // 执行目标对象的方法
-        Object result = method.invoke(this.obj, args);
+        //Object result = method.invoke(this.obj, args);
+        Object result = methodProxy.invokeSuper(obj, args);
 
         System.out.println("提交事务...");
         return result;

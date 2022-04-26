@@ -2,7 +2,7 @@
 [toc]
 # 个人的学习笔记
 ## 动态代理
-- 动态代理与CGLib动态代理都是实现Spring AOP的基础。如果加入容器的目标对象有实现接口,用动态代理，如果目标对象没有实现接口,用Cglib代理
+- jdk动态代理与CGLib动态代理都是实现Spring AOP的基础。如果加入容器的目标对象有实现接口,用动态代理，如果目标对象没有实现接口,用Cglib代理
 ### JDK代理
     相关示例 pers.yuanman.study.proxy.JdkProxyDemo 
 ### CGLib动态代理

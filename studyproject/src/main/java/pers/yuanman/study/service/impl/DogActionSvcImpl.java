@@ -4,6 +4,7 @@ import pers.yuanman.study.service.AnimalActionSvc;
 
 /**
  * 狗行为实现类
+ * 未实现任何接口
  */
 public class DogActionSvcImpl  {
 
