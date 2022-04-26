@@ -2,7 +2,6 @@ package pers.yuanman.study.proxy;
 import pers.yuanman.study.base.model.Cat;
 import pers.yuanman.study.base.service.InvocationHandlerImpl;
 import pers.yuanman.study.service.AnimalActionSvc;
-import pers.yuanman.study.service.impl.AnimalActionSvcImpl;
 import pers.yuanman.study.service.impl.CatActionSvcImpl;
 
 import java.lang.reflect.Proxy;
