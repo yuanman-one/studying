@@ -9,7 +9,7 @@ import pers.yuanman.study.service.impl.CatActionSvcImpl;
 import pers.yuanman.study.service.impl.DogActionSvcImpl;
 
 /**
- * CGlib代理
+ * CGlib代理示例
  * JDK动态代理需要被代理类实现接口，如果被代理类没有实现接口，那么这么实现动态代理？
  * 这时候就需要用到CGLib了。这种代理方式就叫做CGlib代理。
  * Cglib代理也叫作子类代理，他是通过在内存中构建一个子类，并在子类中采用方法拦截的技术拦截所有父类方法的调用，

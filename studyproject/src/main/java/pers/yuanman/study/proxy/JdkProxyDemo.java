@@ -7,7 +7,7 @@ import pers.yuanman.study.service.impl.CatActionSvcImpl;
 import java.lang.reflect.Proxy;
 
 /**
- * JDK代理
+ * JDK代理示例
  * 代理实现类，这个类必须实现一个接口
  */
 public class JdkProxyDemo {
