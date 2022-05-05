@@ -61,6 +61,16 @@ public class BinarTree {
     }
 
     /**
+     * 删除树中节点
+     * @param data
+     * @return Boolean 插入成功返回true
+     */
+    public Boolean deteleTreeNode(Integer data){
+        //自己写 先删除左边的，然后再一起考虑右边的
+        return false;
+    }
+    /**
+     * 查询
      * @param data
      * @return TreeNode
      */
