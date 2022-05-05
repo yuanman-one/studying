@@ -3,6 +3,7 @@ package pers.yuanman.study.reflect;
 import pers.yuanman.study.base.model.Cat;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class ClassDemo {
 
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException, NoSuchFieldException, NoSuchMethodException {
+    public static void main(String[] args) throws InstantiationException, IllegalAccessException, NoSuchFieldException, NoSuchMethodException, InvocationTargetException {
         Class<?> catClass = Cat.class;
         //Class相关方法
         //1.获取类的成员变量的信息
@@ -45,6 +46,16 @@ public class ClassDemo {
         //getMethod("方法名",参数的Class对象...)
         Method method = catClass.getMethod("add",  Integer.class);
         System.out.println("getMethod(\"方法名\",参数的Class对象...): "+method);
+        Cat cat = (Cat) catClass.newInstance();
+        System.out.println("cat:" +cat.toString());
+        System.out.println("通过method.invoke()方法调用add()方法后");
+        /**
+         * method.invoke(cat, new Integer(4))相当于调用cat.add(4);
+         * method是add方法对象，.invoke(对象,add方法参数(没有则不放或null))
+         * 方法如果没有返回值返回null,有返回值返回具体的返回值
+         */
+        Object invoke = method.invoke(cat, new Integer(4));
+        System.out.println("cat:" +cat.toString());
 
     }
 }

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class Cat {
     /**
      * 体重/kg
@@ -32,13 +31,21 @@ public class Cat {
      */
     private String hairColor;
 
-    public  Cat(String name, Integer age, String hairColor) {
+    public Cat() {
+        super();
+    }
+
+    public Cat(String name, Integer age, String hairColor) {
         this.name = name;
         this.age = age;
         this.hairColor = hairColor;
     }
-
-    public void add(Integer age){
-        this.age=this.age+age;
+    public void add(Integer age) {
+        if (this.age == null) {
+            this.age = 0;
+            this.age += age;
+        } else {
+            this.age += age;
+        }
     }
 }

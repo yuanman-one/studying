@@ -54,4 +54,18 @@ public class InvocationHandlerImpl implements InvocationHandler {
                 this);
         return (T) newProxyInstance;
     }
+
+    /**
+     * 生成获取代理类
+     *
+     */
+    public  Object newProxyInstance() {
+        //获取动态代理对象（这个才是真正能被使用的）
+        //需要的三个参数分别是：目标类的类构建器，目标类的实现接口，刚刚构建的动态代理类
+        Object newProxyInstance = Proxy.newProxyInstance(
+                obj.getClass().getClassLoader(),
+                obj.getClass().getInterfaces(),
+                this);
+        return  newProxyInstance;
+    }
 }

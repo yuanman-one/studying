@@ -26,6 +26,12 @@ public class ReflectDemo {
         //3.对象.getClass；getClass在Object中定义着
         Cat cat = new Cat();
         Class<? extends Cat> aClass3 = cat.getClass();
+        //4.使用类的加载器：ClassLoader 注意这第四点不是类的反射，但1234是获取Class对象的四种方式
+        //通过类加载器获取 Class 对象不会进行初始化，意味着不进行包括初始化等一系列步骤，静态代码块和静态对象不会得到执行
+        ClassLoader classLoader = ReflectDemo.class.getClassLoader();
+        Class<?> aClass4 = classLoader.loadClass("pers.yuanman.study.base.model.Cat");
+        System.out.println("aClass4："+aClass4.newInstance().toString());
+
 
         System.out.println(aClass1);
         System.out.println(aClass2);

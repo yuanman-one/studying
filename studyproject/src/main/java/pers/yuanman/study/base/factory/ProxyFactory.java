@@ -57,5 +57,20 @@ public class ProxyFactory implements MethodInterceptor {
         //创建代理类并返回
         return (T) en.create();
     }
+
+    /**
+     * 创建代理对象
+     *
+     */
+    public  Object newProxyInstance() {
+        // 1.cglib工具类
+        Enhancer en = new Enhancer();
+        // 2.设置父类
+        en.setSuperclass(this.obj.getClass());
+        // 3.设置回调函数  放入拦截器
+        en.setCallback(this);
+        //创建代理类并返回
+        return en.create();
+    }
 }
 
