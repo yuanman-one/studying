@@ -22,6 +22,10 @@ public class TreeNode {
 
     }
 
+    public TreeNode() {
+        super();
+    }
+
     @Override
     public String toString() {
         return "BinaryTree [data=" + data + "]";

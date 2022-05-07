@@ -10,13 +10,10 @@ public class BinarTree {
     public TreeNode root;
 
     public long size;
-    private int value;
-    private BinarTree left;
-
-    private BinarTree right;
 
     /**
      * 往树中加节点
+     *
      * @param data
      * @return Boolean 插入成功返回true
      */
@@ -65,124 +62,194 @@ public class BinarTree {
 
     /**
      * 删除树中节点
-     * @param value
+     *
+     * @param data
+     * @return Boolean 插入成功返回true
      */
-    public void deteleTreeNode(Integer value){
+    public Boolean deteleTreeNode(Integer data) {
+        /**
+         * 假设被删结点是*p，其双亲是*f，不失一般性，设*p是*f的左孩子，下面分三种情况讨论： 　　
+         * ⑴ 若结点*p是叶子结点，则只需修改其双亲结点*f的指针即可。 　　
+         * ⑵ 若结点*p只有左子树PL或者只有右子树PR，则只要使PL或PR 成为其双亲结点的左子树即可。 　　
+         * ⑶ 若结点*p的左、右子树均非空，先找到*p的中序前趋(或后继)结点*s
+         * （注意*s是*p的左子树中的最右下的结点，它的右链域为空），
+         * 然后有两种做法：
+         * ① 令*p的左子树直接链到*p的双亲结点*f的左链上,而*p的右子树链到*p的中序前趋结点*s的右链上。
+         * ② 以*p的中序前趋结点*s代替*p（即把*s的数据复制到*p中），将*s的左子树链到*s的双亲结点*q的左（或右）链上。
+         */
 
-            if (root == null) {
-                return;
-            } else {
-                TreeNode node = findTreeNode(value);
-                TreeNode parent = (TreeNode) searchParent(value);
-                //如果找不到要删除的结点，退出方法
-                if (node == null) {
-                    return;
-                }
-                //只有一个结点，该结点为根结点，则该结点一定会被删除
-                if (root.left == null && root.right == null) {
-                    root = null;
-                    return;
-                }
-                //如果要删除的结点为叶子结点
-                if (node.left == null && node.right == null) {
-                    //判断叶子结点为左子结点还是右子结点
-                    if (parent.left != null && parent.left.value == value) {
-                        parent.left = null;
-                        return;
-                    } else if (parent.right != null && parent.right.value == value) {
-                        parent.right = null;
-                        return;
-                    }
-                } else if (node.left != null && node.right != null) {
-//                要删除的结点有两颗子树
-//                找到要删除结点右子树的最小结点
-                    node.value = delRightMin(node.right);
-                } else {
-//                要删除的结点有一颗子树
-                    if (root.value == value) {
-//                    当删除结点为根结点
-                        if (root.left != null) {
-                            root = root.left;
-                        } else {
-                            root = root.right;
-                        }
-                    } else if (parent.left == node) {
-//                    删除结点为左子结点
-                        if (node.left != null) {
-//                       删除的结点有左子树
-                            parent.left = node.left;
-                        } else {
-//                        删除的结点有右子树
-                            parent.left = node.right;
-                        }
+        //删除时先判断是否存在
+        TreeNode treeNode = findTreeNode(data);
+        if (treeNode != null) {
+            System.out.println("删除的数据存在，执行删除......");
+            //判断是否是叶子节点
+            if (treeNode.right == null && treeNode.left == null) {
+                //叶子节点直接删除
+                treeNode = null;
+                System.out.println("删除的数据成功：" + data);
+                return true;
+            } else
+                //判断是否是根节点
+                if (treeNode.parent == null) {
+                    //根节点,默认以左树最大值替换根节点，无左树则以右树最小值替换
+                    if (treeNode.left != null) {
+                        return deleteLeftTreeNode(treeNode);
                     } else {
-//                    删除的结点为右子结点
-                        if (node.left != null) {
-                            parent.right = node.left;
-                        } else {
-                            parent.right = node.right;
-                        }
+                        return deleteRightTreeNode(treeNode);
+                    }
+                } else {
+                    //非根节点
+                    //判断左右树
+                    if (treeNode.data < root.data) {
+                        //左树
+                        return deleteLeftTreeNode(treeNode);
+                    } else {
+                        //右树
+                        return deleteRightTreeNode(treeNode);
                     }
                 }
+        }
+        System.out.println("删除的数据不存在：" + data);
+        //treeNode.data=null;
+        //自己写 先删除左边的，然后再一起考虑右边的
+        return false;
+    }
+
+    /**
+     * 删除左树节点逻辑
+     *
+     * @param treeNode
+     * @return
+     */
+    private Boolean deleteLeftTreeNode(TreeNode treeNode) {
+        Integer data = treeNode.data;
+        //左树
+        /*   ⑶ 若结点*p的左、右子树均非空，先找到*p的中序前趋(或后继)结点*s
+         * （注意*s是*p的左子树中的最右下的结点，它的右链域为空），
+         * 然后有两种做法：
+         * ① 令*p的左子树直接链到*p的双亲结点*f的左链上,而*p的右子树链到*p的中序前趋结点*s的右链上。
+         * ② 以*p的中序前趋结点*s代替*p（即把*s的数据复制到*p中），将*s的左子树链到*s的双亲结点*q的左（或右）链上。
+         */
+        //*p是treeNode   *s是bottomRightTreeNode
+        //*f是*p的上级节点即parent
+        //查找*s
+        TreeNode bottomRightTreeNode = findBottomRightTreeNode(treeNode.left);
+        TreeNode parent = treeNode.parent;
+        if (parent != null) {
+            //① 令*p的左子树直接链到*p的双亲结点*f的左链上
+            parent.left = treeNode.left;
+            parent.left.parent = treeNode.parent;
+            //而*p的右子树链到*p的中序前趋结点*s的右链上。
+            bottomRightTreeNode.right = treeNode.right;
+            bottomRightTreeNode.parent = treeNode.parent;
+        } else {
+            //treeNode为根节点,即被删除的是根节点
+            treeNode.data = bottomRightTreeNode.data;
+            if (bottomRightTreeNode.left != null) {
+                bottomRightTreeNode.left.parent = bottomRightTreeNode.parent;
+                bottomRightTreeNode.parent.right = bottomRightTreeNode.left;
+            } else {
+                bottomRightTreeNode.parent.right = null;
             }
         }
-
-    private Integer delRightMin(TreeNode right) {
-        return null;
+        //完成了
+        System.out.println("删除的数据成功：" + data);
+        return true;
     }
 
 
-    //查找结点，返回值为该结点，如果找不到，返回null
-        public BinarTree searchNode(int value) {
-            if (value == this.value) {
-                return this;
-            } else if (value < this.value) {
-                if (this.left == null) {
-                    return null;
-                }
-                return this.left.searchNode(value);
-            } else {
-                if (this.right == null) {
-                    return null;
-                }
-                return this.right.searchNode(value);
-            }
-        }
-
-        //查找要删除结点的父结点
-        public Object searchParent(int value) {
-            if ((this.left != null && this.left.value == value) || (this.right != null && this.right.value == value)) {
-                return this;
-            } else {
-                if (this.left != null && value < this.value) {
-                    return this.left.searchParent(value);
-                } else if (this.right != null && value >= this.value) {
-                    return this.right.searchParent(value);
-                } else {
-                    return null;
-                }
-            }
-        }
-
-
-
-
-        /**
-         * 查询
-         * @param data
-         * @return TreeNode
+    /**
+     * 删除右树节点逻辑
+     *
+     * @param treeNode
+     * @return
+     */
+    private Boolean deleteRightTreeNode(TreeNode treeNode) {
+        Integer data = treeNode.data;
+        /*   ⑶ 若结点*p的左、右子树均非空，先找到*p的中序前趋(或后继)结点*s
+         * （注意*s是*p的右子树中的最右下的结点，它的左链域为空），
+         * 然后有两种做法：
+         * ① 令*p的右子树直接链到*p的双亲结点*f的右链上,而*p的左子树链到*p的中序前趋结点*s的左链上。
+         * ② 以*p的中序前趋结点*s代替*p（即把*s的数据复制到*p中），将*s的右子树链到*s的双亲结点*q的左（或右）链上。
          */
-    public TreeNode findTreeNode(Integer data){
-        if(null == root){
+        //右树
+        //逻辑跟左树相反
+        //注意这里的*s是*p的右子树中的最左下的结点，它的左链域为空）
+        TreeNode bottomLeftTreeNode = findBottomLeftTreeNode(treeNode.right);
+        TreeNode parent = treeNode.parent;
+        if (parent != null) {
+            //① 令*p的右子树直接链到*p的双亲结点*f的右链上
+            parent.right = treeNode.right;
+            parent.right.parent = treeNode.parent;
+            //而*p的左子树链到*p的中序前趋结点*s的左链上。
+            bottomLeftTreeNode.left = treeNode.left;
+            bottomLeftTreeNode.parent = treeNode.parent;
+        } else {
+            //treeNode为根节点,即被删除的是根节点
+            treeNode.data = bottomLeftTreeNode.data;
+            if (bottomLeftTreeNode.right != null) {
+                bottomLeftTreeNode.right.parent = bottomLeftTreeNode.parent;
+                bottomLeftTreeNode.parent.left = bottomLeftTreeNode.right;
+            } else {
+                bottomLeftTreeNode.parent.left = null;
+            }
+        }
+
+        //完成了
+        System.out.println("删除的数据成功：" + data);
+        return true;
+    }
+
+
+    /**
+     * 根据树节点查找它的最右下的结点，它的右链域为空
+     *
+     * @param tree
+     * @return
+     */
+    public TreeNode findBottomRightTreeNode(TreeNode tree) {
+        //判断是否存在右子树
+        if (tree.right != null) {
+            //存在右子树就继续找到
+            return findBottomRightTreeNode(tree.right);
+        } else {
+            return tree;
+        }
+    }
+
+    /**
+     * 根据树节点查找它的最左下的结点，它的左链域为空
+     *
+     * @param tree
+     * @return
+     */
+    public TreeNode findBottomLeftTreeNode(TreeNode tree) {
+        //判断是否存在右子树
+        if (tree.left != null) {
+            //存在右子树就继续找到
+            return findBottomLeftTreeNode(tree.left);
+        } else {
+            return tree;
+        }
+    }
+
+    /**
+     * 查询ee
+     *
+     * @param data
+     * @return TreeNode
+     */
+    public TreeNode findTreeNode(Integer data) {
+        if (null == root) {
             return null;
         }
         TreeNode current = root;
-        while(current != null){
-            if(current.data > data){
+        while (current != null) {
+            if (current.data > data) {
                 current = current.left;
-            }else if(current.data < data){
+            } else if (current.data < data) {
                 current = current.right;
-            }else {
+            } else {
                 return current;
             }
 
