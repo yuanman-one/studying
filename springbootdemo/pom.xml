@@ -17,6 +17,7 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <!--Web启动器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -28,6 +29,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <!--测试依赖-->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
