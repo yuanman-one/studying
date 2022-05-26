@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!-- mysql驱动的位置 这个是MySQL连接的jar包，你需要指定你自己计算机上的jar包的位置-->
+    <classPathEntry location="D:\Users\17822\.m2\repository\org\mybatis\generator\mybatis-generator-core\1.3.7\mybatis-generator-core-1.3.7.jar"/>
+
+<!--    <context id="context" targetRuntime="MyBatis3Simple">-->
+<!--    <context id="context" targetRuntime="com.example.springbootdemo.util.MyIntrospectedTableMyBatis3Impl">-->
+    <context id="context" targetRuntime="MyBatis3">
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!--生成mapper.xml时覆盖原文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+        <!-- 为模型生成序列化方法-->
+<!--        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>-->
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 注释 -->
+        <commentGenerator type="com.example.springbootdemo.util.MyCommentGenerator">
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="false"/>
+            <!-- 是否生成注释代时间戳 -->
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+
+        <!-- JDBC连接数据库 -->
+        <jdbcConnection userId="root" password="123456"
+                        driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/firstdatasource?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;rewriteBatchedStatements=true&amp;nullCatalogMeansCurrent=true">
+            <!-- 设置 useInformationSchema 属性为 true ，获取表的注释信息-->
+            <property name="useInformationSchema" value="true"/>
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 数据表对应的model层  domain -->
+        <!-- 生成实体类地址 这里需要你改动，其中targetPackage需要根据你自己创建的目录进行改动 -->
+        <javaModelGenerator targetPackage="com.example.springbootdemo.model" targetProject="springbootdemo/src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成mapper.xml文件 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="springbootdemo/src/main/resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- 生成mapper接口   这里需要改动targetPackage，依据你自己的工程-->
+        <javaClientGenerator targetPackage="com.example.springbootdemo.dao" type="XMLMAPPER" targetProject="springbootdemo/src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- 配置表信息 -->
+        <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample是否生成 example类 -->
+        <table schema="firstdatasource" domainObjectName="Student" tableName="student"
+               enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false">
+            <!-- 解决mybatis generator生成实体类和数据库字段名不一致 -->
+            <property name="useActualColumnNames" value="true"/>
+            <!-- 取不到数据库中字段的注释时，需配置下面的属性 -->
+            <!-- 针对oracle数据库 -->
+            <property name="remarksReporting" value="true"></property>
+            <!-- 针对mysql数据库 -->
+            <property name="useInformationSchema" value="true"></property>
+            <!--      insert方法返回主键值      -->
+<!--            <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        </table>
+    </context>
+</generatorConfiguration>
