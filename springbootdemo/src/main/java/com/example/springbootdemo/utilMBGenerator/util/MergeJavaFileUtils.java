@@ -1,5 +1,6 @@
-package com.example.springbootdemo.util;
+package com.example.springbootdemo.utilMBGenerator.util;
 
+import com.example.springbootdemo.utilMBGenerator.util.JavaParserUtils;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
@@ -10,7 +11,6 @@ import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.javadoc.Javadoc;
 import com.github.javaparser.javadoc.JavadocBlockTag;
-import com.github.javaparser.printer.lexicalpreservation.LexicalPreservingPrinter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -70,11 +70,12 @@ public class MergeJavaFileUtils {
         log.info("合并JAVA代码: 已存在的文件-{}", existingFile.getAbsolutePath());
         //TODO 不格式化
         final CompilationUnit newCompilationUnit      = StaticJavaParser.parse(JavaParserUtils.format(newFileSource));
-        //final CompilationUnit newCompilationUnit      = StaticJavaParser.parse(newFileSource);
         final CompilationUnit existingCompilationUnit = StaticJavaParser.parse(existingFile);
-        LexicalPreservingPrinter.setup(existingCompilationUnit);    // 已存在的代码需要保留原来格式
-        return mergeCompilationUnit(newCompilationUnit, existingCompilationUnit, autoGenTags, removedMemberTags, dontOverWriteFileTags,
-            dontOverWriteAnnotaionTags, dontOverWriteExtendsTags, dontOverWriteImplementsTags);
+       // LexicalPreservingPrinter.setup(existingCompilationUnit);    // 已存在的代码需要保留原来格式
+        //final CompilationUnit newCompilationUnit      = StaticJavaParser.parse(JavaParserUtils.format(newFileSource));
+        String compilationUnit = mergeCompilationUnit(newCompilationUnit, existingCompilationUnit, autoGenTags, removedMemberTags, dontOverWriteFileTags,
+                dontOverWriteAnnotaionTags, dontOverWriteExtendsTags, dontOverWriteImplementsTags);
+        return compilationUnit;
     }
 
     /**
@@ -287,7 +288,14 @@ public class MergeJavaFileUtils {
                     }
 
                     // 将旧注释中手工添加的注解加入新注释中
-                    newMember.setComment(mergeJavadocTags(oldCommentOptional.get().asJavadocComment(), newMember.getComment().get().asJavadocComment()));
+                    if (newMember.getComment().isPresent()){
+                        newMember.setComment(mergeJavadocTags(oldCommentOptional.get().asJavadocComment(), newMember.getComment().get().asJavadocComment()));
+                    }else {
+                        Optional<Comment> comment = newMember.getComment();
+                        JavadocComment s = new JavadocComment("s");
+                        newMember.setComment(s);
+                        newMember.setComment(mergeJavadocTags(oldCommentOptional.get().asJavadocComment(), newMember.getComment().get().asJavadocComment()));
+                    }
 
                     // 判断是否不要覆盖旧成员的注解
                     if (hasTag(newMember, dontOverWriteAnnotaionTags)) {
@@ -352,10 +360,7 @@ public class MergeJavaFileUtils {
         JavaParserUtils.removeUnusedImports(oldCompilationUnit);
 
         // 返回源代码
-        return JavaParserUtils.print(oldCompilationUnit);
-        // return JdtUtils.format(JavaParserUtils.print(oldCompilationUnit));
-        //return JdtUtils.format(oldCompilationUnit.toString());
-         //return GoogleJavaFormatUtils.format(JavaParserUtils.print(oldCompilationUnit));
+        return oldCompilationUnit.toString();
     }
 
     /**
@@ -471,14 +476,5 @@ public class MergeJavaFileUtils {
         return null;
     }
 
-    // /**
-    // * 将参数列表转成String[]
-    // *
-    // * @param paramTypes 参数列表
-    // * @return String[]
-    // */
-    // private static String[] paramTypeToStrings(final List<Type> paramTypes) {
-    // return paramTypes.stream().map(Type::asString).toArray(String[]::new);
-    // }
 
 }

@@ -1,5 +1,7 @@
-package com.example.springbootdemo.util;
+package com.example.springbootdemo.utilMBGenerator.impl;
 
+import com.example.springbootdemo.utilMBGenerator.tags.TagsCo;
+import com.example.springbootdemo.utilMBGenerator.util.MergeJavaFileUtils;
 import org.mybatis.generator.exception.ShellException;
 import org.mybatis.generator.internal.DefaultShellCallback;
 

@@ -1,57 +1,48 @@
-package com.example.springbootdemo.model;
+package com.example.springbootdemo.dao;
 
-import java.io.Serializable;
-import lombok.Data;
+import com.example.springbootdemo.model.SchoolClass;
 
-/**
- *   学生信息表
- *
- * @author yuanman
- * @mbg.generated 自动生成的标识，如修改请删除 Fri May 27 18:37:21 CST 2022
- * @date 2022/05/27
- */
-@Data
-public class Student implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public interface SchoolClassMapper {
 
     /**
-     * @mbg.generated 自动生成的标识，如修改请删除 Fri May 27 18:37:21 CST 2022
-     */
-    private Integer ID;
-
-    /**
-     *   姓名
+     * 根据ID删除记录
      *
      * @mbg.generated 自动生成的标识，如修改请删除 Fri May 27 18:37:21 CST 2022
      */
-    private String NAME;
+    int deleteByPrimaryKey(Integer ID);
 
     /**
-     *   年龄
+     * 添加完整字段记录
      *
      * @mbg.generated 自动生成的标识，如修改请删除 Fri May 27 18:37:21 CST 2022
      */
-    private Integer AGE;
+    int insert(SchoolClass record);
 
     /**
-     *   性别 1男2女
+     * 添加记录
      *
      * @mbg.generated 自动生成的标识，如修改请删除 Fri May 27 18:37:21 CST 2022
      */
-    private Boolean SEX;
+    int insertSelective(SchoolClass record);
 
     /**
-     *   身份证号
+     * 根据ID查询记录
      *
      * @mbg.generated 自动生成的标识，如修改请删除 Fri May 27 18:37:21 CST 2022
      */
-    private String ID_CARD;
+    SchoolClass selectByPrimaryKey(Integer ID);
 
     /**
-     *   班级ID
+     * 根据ID修改记录
      *
      * @mbg.generated 自动生成的标识，如修改请删除 Fri May 27 18:37:21 CST 2022
      */
-    private Integer CLASS_ID;
+    int updateByPrimaryKeySelective(SchoolClass record);
+
+    /**
+     * 根据ID修改完整字段记录
+     *
+     * @mbg.generated 自动生成的标识，如修改请删除 Fri May 27 18:37:21 CST 2022
+     */
+    int updateByPrimaryKey(SchoolClass record);
 }

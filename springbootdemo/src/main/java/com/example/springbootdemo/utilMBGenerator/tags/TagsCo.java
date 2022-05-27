@@ -1,4 +1,4 @@
-package com.example.springbootdemo.util;
+package com.example.springbootdemo.utilMBGenerator.tags;
 
 public class TagsCo {
 

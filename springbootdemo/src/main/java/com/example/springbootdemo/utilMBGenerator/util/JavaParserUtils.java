@@ -1,4 +1,4 @@
-package com.example.springbootdemo.util;
+package com.example.springbootdemo.utilMBGenerator.util;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;

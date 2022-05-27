@@ -1,5 +1,6 @@
-package com.example.springbootdemo.util;
+package com.example.springbootdemo.utilMBGenerator;
 
+import com.example.springbootdemo.utilMBGenerator.impl.MyDefaultShellCallback;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
@@ -10,7 +11,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MybatisGeneratorUtil {
+public class MybatisGeneratorStartRun {
 
     public static void main(String[] args) {
         try {

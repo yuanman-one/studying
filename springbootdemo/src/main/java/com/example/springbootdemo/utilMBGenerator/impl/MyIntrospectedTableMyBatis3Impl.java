@@ -1,13 +1,10 @@
-package com.example.springbootdemo.util;
+package com.example.springbootdemo.utilMBGenerator.impl;
 
 import org.mybatis.generator.api.ProgressCallback;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
 import org.mybatis.generator.codegen.mybatis3.IntrospectedTableMyBatis3Impl;
 
-import java.text.MessageFormat;
 import java.util.List;
-
-import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
 public class MyIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBatis3Impl {
     @Override
