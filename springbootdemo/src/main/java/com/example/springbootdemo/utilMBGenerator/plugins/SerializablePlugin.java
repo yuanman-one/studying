@@ -7,7 +7,7 @@ import org.mybatis.generator.api.dom.java.*;
 import java.util.List;
 import java.util.Properties;
 
-public class MySerializablePlugin extends PluginAdapter {
+public class SerializablePlugin extends PluginAdapter {
     private FullyQualifiedJavaType serializable = new FullyQualifiedJavaType("java.io.Serializable");
     private boolean isSerializable;
 

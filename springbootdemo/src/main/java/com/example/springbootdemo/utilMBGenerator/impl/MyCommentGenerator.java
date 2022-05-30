@@ -21,7 +21,7 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
     private boolean suppressAllComments = false;
     private boolean addRemarkComments = false;
     private boolean markAsDoNotDelete = false;
-    private SimpleDateFormat dateFormat =new SimpleDateFormat("yyyy/MM/dd");
+    private SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy/MM/dd");
     private String author = null;
 
     /**
@@ -34,17 +34,18 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
         this.suppressDate = StringUtility.isTrue(properties.getProperty("suppressDate"));
         this.suppressAllComments = StringUtility.isTrue(properties.getProperty("suppressAllComments"));
         this.addRemarkComments = StringUtility.isTrue(properties.getProperty("addRemarkComments"));
-        String dateFormat = properties.getProperty("dateFormat", "yyyy-MM-dd");
+        String dateFormat = properties.getProperty("dateFormat");
         if (StringUtility.stringHasValue(dateFormat)
                 &&!dateFormat.equals("${dateFormat}")) {
-            this.dateFormat = new SimpleDateFormat(dateFormat);
+            this.simpleDateFormat = new SimpleDateFormat(dateFormat);
         }
+
         if (StringUtility.stringHasValue(properties.getProperty("author"))
                 &&"${author}".equals(properties.getProperty("author"))) {
             this.author = properties.getProperty("author");
         }
-
     }
+
 
     public MyCommentGenerator() {
         super();
@@ -110,6 +111,15 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
         javaElement.addJavaDocLine(sb.toString());
     }
 
+    @Override
+    protected String getDateString() {
+        if (this.suppressDate) {
+            return null;
+        } else {
+            return this.simpleDateFormat != null ? this.simpleDateFormat.format(new Date()) : (new Date()).toString();
+        }
+    }
+
     /**
      * 为模型类添加注释。
      *
@@ -129,14 +139,14 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
 
                 for (int var7 = 0; var7 < var6; ++var7) {
                     String remarkLine = var5[var7];
-                    topLevelClass.addJavaDocLine(" *   " + remarkLine);
+                    topLevelClass.addJavaDocLine(" *  " + remarkLine);
                 }
             }
             this.addJavadocTag(topLevelClass, markAsDoNotDelete);
             if (author!=null){
                 topLevelClass.addJavaDocLine(" * @author " + author);
             }
-            topLevelClass.addJavaDocLine(" * @date " + dateFormat.format(new Date()));
+            topLevelClass.addJavaDocLine(" * @date " + simpleDateFormat.format(new Date()));
             topLevelClass.addJavaDocLine(" */");
         }
 

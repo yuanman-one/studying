@@ -3,72 +3,66 @@
 <mapper namespace="com.example.springbootdemo.dao.SchoolClassMapper">
   <resultMap id="BaseResultMap" type="com.example.springbootdemo.model.SchoolClass">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-      This element was generated on Fri May 27 18:37:21 CST 2022.
-    <id column="ID" jdbcType="INTEGER" property="ID" />
-    <result column="CLASS_NAME" jdbcType="VARCHAR" property="CLASS_NAME" />
+    <constructor>
+      <idArg column="ID" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="CLASS_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
   </resultMap>
   <sql id="Base_Column_List">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-      This element was generated on Fri May 27 18:37:21 CST 2022.
     ID, CLASS_NAME
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-      This element was generated on Fri May 27 18:37:21 CST 2022.
     select 
     <include refid="Base_Column_List" />
     from school_class
-    where ID = #{ID,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-      This element was generated on Fri May 27 18:37:21 CST 2022.
     delete from school_class
-    where ID = #{ID,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.example.springbootdemo.model.SchoolClass">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-      This element was generated on Fri May 27 18:37:21 CST 2022.
     insert into school_class (ID, CLASS_NAME)
-    values (#{ID,jdbcType=INTEGER}, #{CLASS_NAME,jdbcType=VARCHAR})
+    values (#{id,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.springbootdemo.model.SchoolClass">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-      This element was generated on Fri May 27 18:37:21 CST 2022.
     insert into school_class
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="ID != null">
+      <if test="id != null">
         ID,
       </if>
-      <if test="CLASS_NAME != null">
+      <if test="className != null">
         CLASS_NAME,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="ID != null">
-        #{ID,jdbcType=INTEGER},
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="CLASS_NAME != null">
-        #{CLASS_NAME,jdbcType=VARCHAR},
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.example.springbootdemo.model.SchoolClass">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-      This element was generated on Fri May 27 18:37:21 CST 2022.
     update school_class
     <set>
-      <if test="CLASS_NAME != null">
-        CLASS_NAME = #{CLASS_NAME,jdbcType=VARCHAR},
+      <if test="className != null">
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
       </if>
     </set>
-    where ID = #{ID,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.springbootdemo.model.SchoolClass">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-      This element was generated on Fri May 27 18:37:21 CST 2022.
     update school_class
-    set CLASS_NAME = #{CLASS_NAME,jdbcType=VARCHAR}
-    where ID = #{ID,jdbcType=INTEGER}
+    set CLASS_NAME = #{className,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
