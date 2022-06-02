@@ -9,17 +9,39 @@ spring:
     active: dev
   autoconfigure:
     exclude:
-      # 禁用Redis(如使用Redis请删除或者注释下面两行)
-      #- org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-      #- org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
-      # 禁用数据源(如使用数据源请删除或者注释下面两行)
-      #- org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      #- org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
-      #- org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
+    # 禁用Redis(如使用Redis请删除或者注释下面两行)
+    #- org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+    #- org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+    # 禁用数据源(如使用数据源请删除或者注释下面两行)
+    #- org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    #- org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
+    #- org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
+  #jackson相关配置
+  jackson:
+    #日期格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    #设置空如何序列化
+    default-property-inclusion: non_null
+    serialization:
+      #格式化输出
+      indent_output: true
+      #忽略无法转换的对象
+      fail_on_empty_beans: false
+    deserialization:
+      #允许对象忽略json中不存在的属性
+      fail_on_unknown_properties: false
+    parser:
+      #允许出现特殊字符和转义符
+      allow_unquoted_control_chars: true
+      #允许出现单引号
+      allow_single_quotes: true
 
 mybatis:
   type-aliases-package: com.example.springbootdemo.model
   mapper-locations:
     - classpath:**/mapper/**/*.xml
   configuration:
+    #开启驼峰命名映射
     map-underscore-to-camel-case: true
+    #auto-mapping-behavior: full

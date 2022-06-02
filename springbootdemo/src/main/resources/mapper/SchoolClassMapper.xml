@@ -12,44 +12,12 @@
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
     ID, CLASS_NAME
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-    select 
-    <include refid="Base_Column_List" />
-    from school_class
-    where ID = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-    delete from school_class
-    where ID = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.example.springbootdemo.model.SchoolClass">
+  <insert id="add" parameterType="com.example.springbootdemo.model.SchoolClass">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
     insert into school_class (ID, CLASS_NAME)
     values (#{id,jdbcType=INTEGER}, #{className,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.springbootdemo.model.SchoolClass">
-    <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-    insert into school_class
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="className != null">
-        CLASS_NAME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="className != null">
-        #{className,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.springbootdemo.model.SchoolClass">
+  <update id="modifyById" parameterType="com.example.springbootdemo.model.SchoolClass">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
     update school_class
     <set>
@@ -59,10 +27,10 @@
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.springbootdemo.model.SchoolClass">
+  <delete id="deleteById" parameterType="java.lang.Integer">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-    update school_class
-    set CLASS_NAME = #{className,jdbcType=VARCHAR}
+    delete from school_class
     where ID = #{id,jdbcType=INTEGER}
-  </update>
+  </delete>
+
 </mapper>

@@ -34,16 +34,16 @@ public class LombokPlugin extends PluginAdapter {
         topLevelClass.addAnnotation("@NoArgsConstructor");
         topLevelClass.addImportedType("lombok.AllArgsConstructor");
         topLevelClass.addAnnotation("@AllArgsConstructor");
+        //添加可能需要的校验依赖
+        topLevelClass.addImportedType("javax.validation.constraints.NotBlank");
+        topLevelClass.addImportedType("javax.validation.constraints.NotNull");
+        topLevelClass.addImportedType("org.hibernate.validator.constraints.Length");
+        topLevelClass.addImportedType("javax.validation.constraints.PositiveOrZero");
         return super.modelBaseRecordClassGenerated(topLevelClass, introspectedTable);
     }
 
     @Override
-    public boolean modelGetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
-        return super.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, modelClassType);
-    }
-
-    @Override
-    public boolean modelSetterMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
-        return super.modelSetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, modelClassType);
+    public boolean clientInsertMethodGenerated(Method method, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        return super.clientInsertMethodGenerated(method, topLevelClass, introspectedTable);
     }
 }

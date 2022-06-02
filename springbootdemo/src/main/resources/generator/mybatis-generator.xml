@@ -13,7 +13,9 @@
     <!-- context 是逆向工程的主要配置信息 -->
     <!-- id：起个名字 -->
     <!-- targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
-    <context id="context" targetRuntime="MyBatis3" defaultModelType="flat">
+    <context id="context"
+             targetRuntime="com.example.springbootdemo.utilMBGenerator.impl.MyIntrospectedTableMyBatis3Impl"
+             defaultModelType="flat">
         <property name="javaFileEncoding" value="UTF-8"/>
         <property name="dateFormat" value="yyyy/MM/dd"/>
         <!--        <property name="author" value="admin"/>-->
@@ -92,9 +94,11 @@
         <!-- 生成mapper接口   这里需要改动targetPackage，依据你自己的工程-->
         <javaClientGenerator targetPackage="${clientTargetPackage}"
                              targetProject="${javaTargetProject}"
-                             type="XMLMAPPER">
+                             type="com.example.springbootdemo.utilMBGenerator.impl.mymethod.MyJavaMapperGenerator">
+            <!--        type="XMLMAPPER">-->
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
+            <property name="constructorBased" value="false"/>
         </javaClientGenerator>
 
         <!-- 配置表信息 -->
@@ -103,7 +107,8 @@
         <table schema="firstdatasource" tableName="%"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
+               selectByExampleQueryId="true"
+        >
             <!-- 是否开启驼峰命名映射 true为关闭映射-->
             <property name="useActualColumnNames" value="${useActualColumnNames}"/>
             <!-- 取不到数据库中字段的注释时，需配置下面的属性 -->

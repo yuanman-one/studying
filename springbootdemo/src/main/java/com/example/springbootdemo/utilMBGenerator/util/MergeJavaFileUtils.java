@@ -98,7 +98,7 @@ public class MergeJavaFileUtils {
                                                final String[] dontOverWriteImplementsTags) {
         final Optional<Comment> oldCommentOfPackage = oldCompilationUnit.getComment();
         // 如果旧注释中含有不覆盖的注解，才用新代码的注释
-        if (oldCommentOfPackage.isPresent() && hasTag(oldCommentOfPackage.get(), dontOverWriteFileTags)) {
+        if (oldCommentOfPackage.isPresent() && hasTag(oldCommentOfPackage.get().asJavadocComment(), dontOverWriteFileTags)) {
             return oldCompilationUnit.toString();
         }
 

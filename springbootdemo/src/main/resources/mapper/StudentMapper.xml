@@ -7,7 +7,7 @@
       <idArg column="ID" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="AGE" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="SEX" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="SEX" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="ID_CARD" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="CLASS_ID" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
@@ -16,70 +16,16 @@
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
     ID, NAME, AGE, SEX, ID_CARD, CLASS_ID
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-    select 
-    <include refid="Base_Column_List" />
-    from student
-    where ID = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-    delete from student
-    where ID = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.example.springbootdemo.model.Student">
+  <insert id="add" parameterType="com.example.springbootdemo.model.Student">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
     insert into student (ID, NAME, AGE, 
-      SEX, ID_CARD, CLASS_ID)
+      SEX, ID_CARD, CLASS_ID
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
-      #{sex,jdbcType=BIT}, #{idCard,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER})
+      #{sex,jdbcType=TINYINT}, #{idCard,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.springbootdemo.model.Student">
-    <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-    insert into student
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="name != null">
-        NAME,
-      </if>
-      <if test="age != null">
-        AGE,
-      </if>
-      <if test="sex != null">
-        SEX,
-      </if>
-      <if test="idCard != null">
-        ID_CARD,
-      </if>
-      <if test="classId != null">
-        CLASS_ID,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="age != null">
-        #{age,jdbcType=INTEGER},
-      </if>
-      <if test="sex != null">
-        #{sex,jdbcType=BIT},
-      </if>
-      <if test="idCard != null">
-        #{idCard,jdbcType=VARCHAR},
-      </if>
-      <if test="classId != null">
-        #{classId,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.springbootdemo.model.Student">
+  <update id="modifyById" parameterType="com.example.springbootdemo.model.Student">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
     update student
     <set>
@@ -90,7 +36,7 @@
         AGE = #{age,jdbcType=INTEGER},
       </if>
       <if test="sex != null">
-        SEX = #{sex,jdbcType=BIT},
+        SEX = #{sex,jdbcType=TINYINT},
       </if>
       <if test="idCard != null">
         ID_CARD = #{idCard,jdbcType=VARCHAR},
@@ -101,14 +47,11 @@
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.springbootdemo.model.Student">
+  <delete id="deleteById" parameterType="java.lang.Integer">
     <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
-    update student
-    set NAME = #{name,jdbcType=VARCHAR},
-      AGE = #{age,jdbcType=INTEGER},
-      SEX = #{sex,jdbcType=BIT},
-      ID_CARD = #{idCard,jdbcType=VARCHAR},
-      CLASS_ID = #{classId,jdbcType=INTEGER}
+    delete from student
     where ID = #{id,jdbcType=INTEGER}
-  </update>
+  </delete>
+  
+
 </mapper>

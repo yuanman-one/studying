@@ -86,7 +86,6 @@ public class ResponseUtil {
      */
     public static String retInfoJson(Integer code, Object data, String msg)
     {
-        //return JSON.toJSONString(retInfo(code, data, msg), SerializerFeature.WriteMapNullValue);
-        return msg;
+        return JsonUtil.toJsonString(retInfo(code, data, msg));
     }
 }

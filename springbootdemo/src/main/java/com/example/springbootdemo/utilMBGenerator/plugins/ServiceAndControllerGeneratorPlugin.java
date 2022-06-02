@@ -254,23 +254,6 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
         daoField.setVisibility(JavaVisibility.PRIVATE);
         clazz.addField(daoField);
 
-
-//        //描述 方法名
-//        Method method = new Method("getService");
-//        //方法注解
-//        method.addAnnotation("@Override");
-//        String simpleSuperServiceName = superServiceInterface.substring(superServiceInterface.lastIndexOf(".") + 1);
-//        FullyQualifiedJavaType methodReturnType = new FullyQualifiedJavaType(simpleSuperServiceName + "<" + modelName + ">");
-//        //返回类型
-//        method.setReturnType(methodReturnType);
-//        //方法体，逻辑代码
-//        method.addBodyLine("return " + serviceFieldName + ";");
-//        //修饰符
-//        method.setVisibility(JavaVisibility.PUBLIC);
-//        clazz.addImportedType(superServiceInterface);
-//        clazz.addMethod(method);
-
-
         GeneratedJavaFile gjf2 = new GeneratedJavaFile(clazz, targetProject, context.getJavaFormatter());
         return gjf2;
     }
