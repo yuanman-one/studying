@@ -3,18 +3,17 @@ package com.example.springbootdemo.utilMBGenerator.impl.mymethod.javamapper;
 import com.example.springbootdemo.utilMBGenerator.util.JavaTagUtil;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.java.*;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectByPrimaryKeyMethodGenerator;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class DeleteByIdMethodGenerator extends DeleteByPrimaryKeyMethodGenerator {
-
+public class GetByIdMethodGenerator extends SelectByPrimaryKeyMethodGenerator {
     private final boolean isSimple;
 
-    public DeleteByIdMethodGenerator(boolean isSimple) {
+    public GetByIdMethodGenerator(boolean isSimple) {
         super(isSimple);
         this.isSimple = isSimple;
     }
@@ -25,9 +24,10 @@ public class DeleteByIdMethodGenerator extends DeleteByPrimaryKeyMethodGenerator
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet();
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
-        method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        //method.setName(this.introspectedTable.getDeleteByPrimaryKeyStatementId());
-        method.setName("deleteById");
+        FullyQualifiedJavaType returnType = this.introspectedTable.getRules().calculateAllFieldsClass();
+        method.setReturnType(returnType);
+        importedTypes.add(returnType);
+        method.setName("getById");
         if (!this.isSimple && this.introspectedTable.getRules().generatePrimaryKeyClass()) {
             FullyQualifiedJavaType type = new FullyQualifiedJavaType(this.introspectedTable.getPrimaryKeyType());
             importedTypes.add(type);
@@ -42,8 +42,8 @@ public class DeleteByIdMethodGenerator extends DeleteByPrimaryKeyMethodGenerator
             StringBuilder sb = new StringBuilder();
 
             Parameter parameter;
-            for (Iterator var7 = introspectedColumns.iterator(); var7.hasNext(); method.addParameter(parameter)) {
-                IntrospectedColumn introspectedColumn = (IntrospectedColumn) var7.next();
+            for (Iterator var8 = introspectedColumns.iterator(); var8.hasNext(); method.addParameter(parameter)) {
+                IntrospectedColumn introspectedColumn = (IntrospectedColumn) var8.next();
                 FullyQualifiedJavaType type = introspectedColumn.getFullyQualifiedJavaType();
                 importedTypes.add(type);
                 parameter = new Parameter(type, introspectedColumn.getJavaProperty());
@@ -57,28 +57,28 @@ public class DeleteByIdMethodGenerator extends DeleteByPrimaryKeyMethodGenerator
             }
         }
 
+        this.addMapperAnnotations(interfaze, method);
         this.context.getCommentGenerator().addGeneralMethodComment(method, this.introspectedTable);
-        this.addMapperAnnotations(method);
 
         method.getJavaDocLines().clear();
         StringBuilder sb = new StringBuilder();
         method.addJavaDocLine("/**");
-        sb.append(" * 根据ID删除记录 ");
+        sb.append(" * 根据ID查询记录 ");
         method.addJavaDocLine(sb.toString());
         JavaTagUtil.addJavadocTag(method);
         method.addJavaDocLine(" */");
 
-        if (this.context.getPlugins().clientDeleteByPrimaryKeyMethodGenerated(method, interfaze, this.introspectedTable)) {
+
+        if (this.context.getPlugins().clientSelectByPrimaryKeyMethodGenerated(method, interfaze, this.introspectedTable)) {
             this.addExtraImports(interfaze);
             interfaze.addImportedTypes(importedTypes);
             interfaze.addMethod(method);
         }
-
     }
 
     @Override
-    public void addMapperAnnotations(Method method) {
-        super.addMapperAnnotations(method);
+    public void addMapperAnnotations(Interface interfaze, Method method) {
+        super.addMapperAnnotations(interfaze, method);
     }
 
     @Override

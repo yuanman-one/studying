@@ -6,7 +6,6 @@ import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
-import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeySelectiveElementGenerator;
 
 import java.util.Iterator;
@@ -18,7 +17,7 @@ public class ModifyByIdElementGenerator extends UpdateByPrimaryKeySelectiveEleme
 
     @Override
     public void addElements(XmlElement parentElement) {
-       // super.addElements(parentElement);
+        // super.addElements(parentElement);
         XmlElement answer = new XmlElement("update");
         //answer.addAttribute(new Attribute("id", this.introspectedTable.getUpdateByPrimaryKeySelectiveStatementId()));
         answer.addAttribute(new Attribute("id", "modifyById"));
@@ -39,8 +38,8 @@ public class ModifyByIdElementGenerator extends UpdateByPrimaryKeySelectiveEleme
         answer.addElement(dynamicElement);
         Iterator var6 = ListUtilities.removeGeneratedAlwaysColumns(this.introspectedTable.getNonPrimaryKeyColumns()).iterator();
 
-        while(var6.hasNext()) {
-            IntrospectedColumn introspectedColumn = (IntrospectedColumn)var6.next();
+        while (var6.hasNext()) {
+            IntrospectedColumn introspectedColumn = (IntrospectedColumn) var6.next();
             sb.setLength(0);
             sb.append(introspectedColumn.getJavaProperty());
             sb.append(" != null");
@@ -58,8 +57,8 @@ public class ModifyByIdElementGenerator extends UpdateByPrimaryKeySelectiveEleme
         boolean and = false;
         Iterator var10 = this.introspectedTable.getPrimaryKeyColumns().iterator();
 
-        while(var10.hasNext()) {
-            IntrospectedColumn introspectedColumn = (IntrospectedColumn)var10.next();
+        while (var10.hasNext()) {
+            IntrospectedColumn introspectedColumn = (IntrospectedColumn) var10.next();
             sb.setLength(0);
             if (and) {
                 sb.append("  and ");

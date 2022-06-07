@@ -15,6 +15,7 @@ public class MyDefaultShellCallback extends DefaultShellCallback {
 
     /**
      * 是否支持代码合并
+     *
      * @return
      */
     @Override

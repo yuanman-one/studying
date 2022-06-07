@@ -2,24 +2,24 @@ package com.example.springbootdemo.utilMBGenerator.impl.mymethod.xmlmapper;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.OutputUtilities;
-import org.mybatis.generator.api.dom.java.*;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
-import org.mybatis.generator.codegen.ibatis2.Ibatis2FormattingUtilities;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertElementGenerator;
 import org.mybatis.generator.config.GeneratedKey;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 修改默认的insert方法名为add
  */
 public class AddElementGenerator extends InsertElementGenerator {
 
-    private boolean isSimple;
+    private final boolean isSimple;
 
     public AddElementGenerator(boolean isSimple) {
         super(isSimple);

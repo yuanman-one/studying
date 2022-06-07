@@ -1,6 +1,5 @@
 package com.example.springbootdemo.utilMBGenerator.util;
 
-import com.example.springbootdemo.utilMBGenerator.util.JavaParserUtils;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
@@ -34,17 +33,15 @@ public class MergeJavaFileUtils {
      * @param dontOverWriteAnnotaionTags  不覆盖注解
      * @param dontOverWriteExtendsTags    不覆盖extends
      * @param dontOverWriteImplementsTags 不覆盖implements
-     *
      * @return 合并后的新内容
-     *
      * @throws FileNotFoundException
      */
     public static String merge(final String newFileSource, final String existingFileFullPath, final String[] autoGenTags, final String[] removedMemberTags,
                                final String[] dontOverWriteFileTags, final String[] dontOverWriteAnnotaionTags, final String[] dontOverWriteExtendsTags,
                                final String[] dontOverWriteImplementsTags)
-        throws FileNotFoundException {
+            throws FileNotFoundException {
         return merge(newFileSource, new File(existingFileFullPath), autoGenTags, removedMemberTags, dontOverWriteFileTags,
-            dontOverWriteAnnotaionTags, dontOverWriteExtendsTags, dontOverWriteImplementsTags);
+                dontOverWriteAnnotaionTags, dontOverWriteExtendsTags, dontOverWriteImplementsTags);
     }
 
     /**
@@ -58,20 +55,18 @@ public class MergeJavaFileUtils {
      * @param dontOverWriteAnnotaionTags  不覆盖注解
      * @param dontOverWriteExtendsTags    不覆盖extends
      * @param dontOverWriteImplementsTags 不覆盖implements
-     *
      * @return 合并后的新内容
-     *
      * @throws FileNotFoundException
      */
     public static String merge(final String newFileSource, final File existingFile, final String[] autoGenTags, final String[] removedMemberTags,
                                final String[] dontOverWriteFileTags, final String[] dontOverWriteAnnotaionTags, final String[] dontOverWriteExtendsTags,
                                final String[] dontOverWriteImplementsTags)
-        throws FileNotFoundException {
+            throws FileNotFoundException {
         log.info("合并JAVA代码: 已存在的文件-{}", existingFile.getAbsolutePath());
         //TODO 不格式化
-        final CompilationUnit newCompilationUnit      = StaticJavaParser.parse(JavaParserUtils.format(newFileSource));
+        final CompilationUnit newCompilationUnit = StaticJavaParser.parse(JavaParserUtils.format(newFileSource));
         final CompilationUnit existingCompilationUnit = StaticJavaParser.parse(existingFile);
-       // LexicalPreservingPrinter.setup(existingCompilationUnit);    // 已存在的代码需要保留原来格式
+        // LexicalPreservingPrinter.setup(existingCompilationUnit);    // 已存在的代码需要保留原来格式
         //final CompilationUnit newCompilationUnit      = StaticJavaParser.parse(JavaParserUtils.format(newFileSource));
         String compilationUnit = mergeCompilationUnit(newCompilationUnit, existingCompilationUnit, autoGenTags, removedMemberTags, dontOverWriteFileTags,
                 dontOverWriteAnnotaionTags, dontOverWriteExtendsTags, dontOverWriteImplementsTags);
@@ -89,7 +84,6 @@ public class MergeJavaFileUtils {
      * @param dontOverWriteAnnotaionTags  不覆盖注解
      * @param dontOverWriteExtendsTags    不覆盖extends
      * @param dontOverWriteImplementsTags 不覆盖implements
-     *
      * @return 合并后的内容
      */
     private static String mergeCompilationUnit(final CompilationUnit newCompilationUnit, final CompilationUnit oldCompilationUnit, final String[] autoGenTags,
@@ -122,7 +116,8 @@ public class MergeJavaFileUtils {
         newCompilationUnit.getPackageDeclaration().ifPresent(oldCompilationUnit::setPackageDeclaration);
 
         log.info("合并imports");
-        OUTLOOP: for (final ImportDeclaration newImport : newCompilationUnit.getImports()) {
+        OUTLOOP:
+        for (final ImportDeclaration newImport : newCompilationUnit.getImports()) {
             for (final ImportDeclaration oldImport : oldCompilationUnit.getImports()) {
                 if (oldImport.getName().equals(newImport.getName())) {
                     continue OUTLOOP;
@@ -135,11 +130,11 @@ public class MergeJavaFileUtils {
         final List<ClassOrInterfaceDeclaration> classOrInterfaces = newCompilationUnit.findAll(ClassOrInterfaceDeclaration.class);
         for (final ClassOrInterfaceDeclaration newClassOrInterface : classOrInterfaces) {
             // 新的类或接口的名称
-            final String                                classOrInterfaceName        = newClassOrInterface.getNameAsString();
+            final String classOrInterfaceName = newClassOrInterface.getNameAsString();
             // 根据新类或接口获取旧类或接口
             final Optional<ClassOrInterfaceDeclaration> oldClassOrInterfaceOptional = newClassOrInterface.isInterface()
-                ? oldCompilationUnit.getInterfaceByName(classOrInterfaceName)
-                : oldCompilationUnit.getClassByName(classOrInterfaceName);
+                    ? oldCompilationUnit.getInterfaceByName(classOrInterfaceName)
+                    : oldCompilationUnit.getClassByName(classOrInterfaceName);
 
             // 如果旧代码没有此类或接口，则添加此类或接口
             if (!oldClassOrInterfaceOptional.isPresent()) {
@@ -207,8 +202,8 @@ public class MergeJavaFileUtils {
             final NodeList<BodyDeclaration<?>> newMembers = newClassOrInterface.getMembers();
 
             log.info("旧类或接口中删除在新类或接口中已经不存在的自动生成的成员");
-            final NodeList<BodyDeclaration<?>> oldMembers      = oldClassOrInterface.getMembers();
-            final List<BodyDeclaration<?>>     toRemoveMembers = new LinkedList<>();
+            final NodeList<BodyDeclaration<?>> oldMembers = oldClassOrInterface.getMembers();
+            final List<BodyDeclaration<?>> toRemoveMembers = new LinkedList<>();
             for (final BodyDeclaration<?> oldMember : oldMembers) {
                 // 如果没有注释，或不是javadoc注释，或不包含自动生成注解，则不删除此成员
                 final Optional<Comment> oldCommentOptional = oldMember.getComment();
@@ -219,9 +214,9 @@ public class MergeJavaFileUtils {
                 // 如果是字段
                 if (oldMember.isFieldDeclaration()) {
                     // 新字段
-                    final FieldDeclaration           oldField         = oldMember.asFieldDeclaration();
+                    final FieldDeclaration oldField = oldMember.asFieldDeclaration();
                     // 获取字段的名称
-                    final String                     fieldName        = getFieldName(oldField);
+                    final String fieldName = getFieldName(oldField);
                     // 新代码中的字段
                     final Optional<FieldDeclaration> newFieldOptional = newClassOrInterface.getFieldByName(fieldName);
                     if (!newFieldOptional.isPresent()) {
@@ -232,9 +227,9 @@ public class MergeJavaFileUtils {
                 // 如果是方法(包含构造方法)
                 else if (oldMember.isCallableDeclaration()) {
                     // 新方法
-                    final CallableDeclaration<?> oldCallable  = oldMember.asCallableDeclaration();
+                    final CallableDeclaration<?> oldCallable = oldMember.asCallableDeclaration();
                     // 获取新方法的名称
-                    final String                 callableName = oldCallable.getNameAsString();
+                    final String callableName = oldCallable.getNameAsString();
                     log.info("当前成员是方法: {}", callableName);
 
                     // 获取旧方法的签名
@@ -258,11 +253,11 @@ public class MergeJavaFileUtils {
                 // 如果是字段
                 if (newMember.isFieldDeclaration()) {
                     // 新字段
-                    final FieldDeclaration newField     = newMember.asFieldDeclaration();
+                    final FieldDeclaration newField = newMember.asFieldDeclaration();
                     // 获取字段的类型
-                    final String           newFieldType = getFieldType(newField);
+                    final String newFieldType = getFieldType(newField);
                     // 获取字段的名称
-                    final String           newFieldName = getFieldName(newField);
+                    final String newFieldName = getFieldName(newField);
                     log.info("当前成员是字段: {} {}", newFieldType, newFieldName);
 
                     if (removedMembers.contains(newFieldName)) {
@@ -283,14 +278,14 @@ public class MergeJavaFileUtils {
                     // 如果没有注释，或不是javadoc注释，或不包含自动生成注解，则不替换此成员
                     final Optional<Comment> oldCommentOptional = oldField.getComment();
                     if (!oldCommentOptional.isPresent() || !oldCommentOptional.get().isJavadocComment()
-                        || !hasTag(oldCommentOptional.get().asJavadocComment(), autoGenTags)) {
+                            || !hasTag(oldCommentOptional.get().asJavadocComment(), autoGenTags)) {
                         continue;
                     }
 
                     // 将旧注释中手工添加的注解加入新注释中
-                    if (newMember.getComment().isPresent()){
+                    if (newMember.getComment().isPresent()) {
                         newMember.setComment(mergeJavadocTags(oldCommentOptional.get().asJavadocComment(), newMember.getComment().get().asJavadocComment()));
-                    }else {
+                    } else {
                         Optional<Comment> comment = newMember.getComment();
                         JavadocComment s = new JavadocComment("s");
                         newMember.setComment(s);
@@ -309,9 +304,9 @@ public class MergeJavaFileUtils {
                 // 如果是方法(包含构造方法)
                 else if (newMember.isCallableDeclaration()) {
                     // 新方法
-                    final CallableDeclaration<?> newCallable     = newMember.asCallableDeclaration();
+                    final CallableDeclaration<?> newCallable = newMember.asCallableDeclaration();
                     // 获取新方法的名称
-                    final String                 newCallableName = newCallable.getNameAsString();
+                    final String newCallableName = newCallable.getNameAsString();
                     log.info("当前成员是方法: {}", newCallableName);
 
                     if (removedMembers.contains(newCallableName)) {
@@ -338,7 +333,7 @@ public class MergeJavaFileUtils {
                     // 如果没有注释，或不是javadoc注释，或不包含自动生成注解，则不替换此成员
                     final Optional<Comment> oldCommentOptional = oldCallable.getComment();
                     if (!oldCommentOptional.isPresent() || !oldCommentOptional.get().isJavadocComment()
-                        || !hasTag(oldCommentOptional.get().asJavadocComment(), autoGenTags)) {
+                            || !hasTag(oldCommentOptional.get().asJavadocComment(), autoGenTags)) {
                         continue;
                     }
 
@@ -367,7 +362,6 @@ public class MergeJavaFileUtils {
      * 获取Javadoc中的注解
      *
      * @param javadocComment Javadoc的注释
-     *
      * @return Javadoc中的注解列表
      */
     private static List<JavadocBlockTag> getTags(final JavadocComment javadocComment) {
@@ -380,7 +374,6 @@ public class MergeJavaFileUtils {
      *
      * @param javadocTags JavaDoc的Tag列表
      * @param tags        判断是否包含的注解
-     *
      * @return 是否有Javadoc注释，且里面包含指定的注解
      */
     private static boolean hasTag(final List<JavadocBlockTag> javadocTags, final String[] tags) {
@@ -399,7 +392,6 @@ public class MergeJavaFileUtils {
      *
      * @param javadocComment Javadoc的注释
      * @param tags           判断是否包含的注解
-     *
      * @return 是否包含
      */
     private static boolean hasTag(final JavadocComment javadocComment, final String[] tags) {
@@ -412,7 +404,6 @@ public class MergeJavaFileUtils {
      *
      * @param node 节点
      * @param tags 判断是否包含的注解
-     *
      * @return 是否有Javadoc注释，且里面包含指定的注解
      */
     private static boolean hasTag(final Node node, final String[] tags) {
@@ -429,7 +420,6 @@ public class MergeJavaFileUtils {
      *
      * @param srcJavadocComment 源注释
      * @param dstJavadocComment 目的注释
-     *
      * @return 合并后的注释
      */
     private static JavadocComment mergeJavadocTags(final JavadocComment srcJavadocComment, final JavadocComment dstJavadocComment) {
@@ -439,7 +429,8 @@ public class MergeJavaFileUtils {
         // 如果目的注释有手工添加的注解，则保留下来
         final List<JavadocBlockTag> srcJavadocTags = srcJavadoc.getBlockTags();
         final List<JavadocBlockTag> dstJavadocTags = dstJavadoc.getBlockTags();
-        OUTLOOP: for (final JavadocBlockTag srcJavadocTag : srcJavadocTags) {
+        OUTLOOP:
+        for (final JavadocBlockTag srcJavadocTag : srcJavadocTags) {
             for (final JavadocBlockTag dstJavadocTag : dstJavadocTags) {
                 if (srcJavadocTag.getTagName().equals(dstJavadocTag.getTagName())) {
                     continue OUTLOOP;

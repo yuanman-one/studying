@@ -22,17 +22,17 @@ public class MyIntrospectedTableMyBatis3Impl extends IntrospectedTableMyBatis3Im
     @Override
     protected void calculateXmlMapperGenerator(AbstractJavaClientGenerator javaClientGenerator, List<String> warnings, ProgressCallback progressCallback) {
         //super.calculateXmlMapperGenerator(javaClientGenerator, warnings, progressCallback);
-            if (javaClientGenerator == null) {
-                if (context.getSqlMapGeneratorConfiguration() != null) {
-                    xmlMapperGenerator = new MyXMLMapperGenerator();
-                }
-            } else {
-                xmlMapperGenerator = javaClientGenerator.getMatchedXMLGenerator();
-                //xmlMapperGenerator = new MyXMLMapperGenerator();
+        if (javaClientGenerator == null) {
+            if (context.getSqlMapGeneratorConfiguration() != null) {
+                xmlMapperGenerator = new MyXMLMapperGenerator();
             }
+        } else {
+            xmlMapperGenerator = javaClientGenerator.getMatchedXMLGenerator();
+            //xmlMapperGenerator = new MyXMLMapperGenerator();
+        }
 
-            initializeAbstractGenerator(xmlMapperGenerator, warnings,
-                    progressCallback);
+        initializeAbstractGenerator(xmlMapperGenerator, warnings,
+                progressCallback);
     }
 
     @Override

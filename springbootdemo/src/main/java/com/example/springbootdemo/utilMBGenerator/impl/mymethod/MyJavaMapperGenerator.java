@@ -1,8 +1,6 @@
 package com.example.springbootdemo.utilMBGenerator.impl.mymethod;
 
-import com.example.springbootdemo.utilMBGenerator.impl.mymethod.javamapper.AddMethodGenerator;
-import com.example.springbootdemo.utilMBGenerator.impl.mymethod.javamapper.DeleteByIdMethodGenerator;
-import com.example.springbootdemo.utilMBGenerator.impl.mymethod.javamapper.ModifyByIdMethodGenerator;
+import com.example.springbootdemo.utilMBGenerator.impl.mymethod.javamapper.*;
 import org.mybatis.generator.api.CommentGenerator;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -11,7 +9,6 @@ import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.JavaMapperGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyMethodGenerator;
 import org.mybatis.generator.config.PropertyRegistry;
 
 import java.util.ArrayList;
@@ -41,7 +38,6 @@ public class MyJavaMapperGenerator extends JavaMapperGenerator {
         Interface interfaze = new Interface(type);
         interfaze.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(interfaze);
-
         String rootInterface = introspectedTable
                 .getTableConfigurationProperty(PropertyRegistry.ANY_ROOT_INTERFACE);
         if (!stringHasValue(rootInterface)) {
@@ -59,7 +55,9 @@ public class MyJavaMapperGenerator extends JavaMapperGenerator {
         addAddMethod(interfaze);
         addModifyByIdMethod(interfaze);
         addDeleteByIdMethod(interfaze);
-//        addCountByExampleMethod(interfaze);
+        addGetByIdMethod(interfaze);
+        addCountMethod(interfaze);
+        addCountByExampleMethod(interfaze);
 //        addDeleteByExampleMethod(interfaze);
         //addDeleteByPrimaryKeyMethod(interfaze);
         //addInsertMethod(interfaze);
@@ -88,6 +86,11 @@ public class MyJavaMapperGenerator extends JavaMapperGenerator {
         return answer;
     }
 
+    private void addCountMethod(Interface interfaze) {
+        AbstractJavaMapperMethodGenerator methodGenerator = new CountMethodGenerator();
+        this.initializeAndExecuteGenerator(methodGenerator, interfaze);
+    }
+
     private void addDeleteByIdMethod(Interface interfaze) {
         AbstractJavaMapperMethodGenerator methodGenerator = new DeleteByIdMethodGenerator(false);
         this.initializeAndExecuteGenerator(methodGenerator, interfaze);
@@ -104,6 +107,10 @@ public class MyJavaMapperGenerator extends JavaMapperGenerator {
         this.initializeAndExecuteGenerator(methodGenerator, interfaze);
     }
 
+    private void addGetByIdMethod(Interface interfaze) {
+        AbstractJavaMapperMethodGenerator methodGenerator = new GetByIdMethodGenerator(false);
+        this.initializeAndExecuteGenerator(methodGenerator, interfaze);
+    }
 
     @Override
     public AbstractXmlGenerator getMatchedXMLGenerator() {

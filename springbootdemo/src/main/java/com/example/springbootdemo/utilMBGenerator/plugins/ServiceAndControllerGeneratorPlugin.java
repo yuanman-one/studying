@@ -109,7 +109,7 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
 
         for (int var7 = 0; var7 < var6; ++var7) {
             String remarkLine = var5[var7];
-            serviceInterface.addJavaDocLine(" * " + remarkLine+"的服务接口");
+            serviceInterface.addJavaDocLine(" * " + remarkLine + "的服务接口");
         }
         sb.append(" * @mbg.generated 自动生成的标识，如修改请删除");
         serviceInterface.addJavaDocLine(sb.toString());
@@ -125,7 +125,7 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
         //添加依赖引入类
         serviceInterface.addImportedType(model);
         //添加方法
-        addCustomMethod(null,serviceInterface);
+        addCustomMethod(null, serviceInterface);
         GeneratedJavaFile gjf = new GeneratedJavaFile(serviceInterface, targetProject, context.getJavaFormatter());
         return gjf;
     }
@@ -145,7 +145,7 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
 
         for (int var7 = 0; var7 < var6; ++var7) {
             String remarkLine = var5[var7];
-            clazz.addJavaDocLine(" * " + remarkLine+"的服务实现");
+            clazz.addJavaDocLine(" * " + remarkLine + "的服务实现");
         }
         sb.append(" * <pre>\n");
         sb.append(" * 注意：\n");
@@ -191,7 +191,7 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
         //描述成员属性修饰符
         daoField.setVisibility(JavaVisibility.PRIVATE);
         clazz.addField(daoField);
-        addCustomMethod(clazz,null);
+        addCustomMethod(clazz, null);
         GeneratedJavaFile gjf2 = new GeneratedJavaFile(clazz, targetProject, context.getJavaFormatter());
         return gjf2;
     }
@@ -261,20 +261,21 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
 
     /**
      * 给类或接口添加方法，传类则接口为null，反之接口为null
+     *
      * @param clazz 类
      * @param inter 接口
      */
-    public  void addCustomMethod(TopLevelClass clazz,Interface inter) {
-        addInsertMethod(clazz,inter);
-        addInsertSelectiveMethod(clazz,inter);
-        addUpdateByPrimaryKeyMethod(clazz,inter);
-        addUpdateByPrimaryKeySelectiveMethod(clazz,inter);
-        addDeleteByPrimaryKeyMethod(clazz,inter);
-        addSelectByPrimaryKeyMethod(clazz,inter);
+    public void addCustomMethod(TopLevelClass clazz, Interface inter) {
+        addInsertMethod(clazz, inter);
+        addInsertSelectiveMethod(clazz, inter);
+        addUpdateByPrimaryKeyMethod(clazz, inter);
+        addUpdateByPrimaryKeySelectiveMethod(clazz, inter);
+        addDeleteByPrimaryKeyMethod(clazz, inter);
+        addSelectByPrimaryKeyMethod(clazz, inter);
     }
 
-    private void addInsertMethod(TopLevelClass clazz,Interface inter) {
-        String[] methodName ={"insert"};
+    private void addInsertMethod(TopLevelClass clazz, Interface inter) {
+        String[] methodName = {"insert"};
         for (int i = 0; i < methodName.length; i++) {
             // 描述 方法名
             Method method = new Method(methodName[i]);
@@ -285,21 +286,21 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
             //返回值
             method.setReturnType(new FullyQualifiedJavaType("int"));
             this.addJavadocTag(method);
-            if (inter==null) {
+            if (inter == null) {
                 //方法注解
                 method.addAnnotation("@Override");
                 method.addAnnotation("@Transactional(readOnly = false, propagation = Propagation.REQUIRED)");
                 //方法体，逻辑代码
                 method.addBodyLine("return " + daoFieldName + "." + methodName[i] + "(mo);");
                 clazz.addMethod(method);
-            }else {
+            } else {
                 inter.addMethod(method);
             }
         }
     }
 
-    void addInsertSelectiveMethod(TopLevelClass clazz,Interface inter) {
-        String[] methodName ={"insertSelective"};
+    void addInsertSelectiveMethod(TopLevelClass clazz, Interface inter) {
+        String[] methodName = {"insertSelective"};
         for (int i = 0; i < methodName.length; i++) {
             // 描述 方法名
             Method method = new Method(methodName[i]);
@@ -310,21 +311,21 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
             //返回值
             method.setReturnType(new FullyQualifiedJavaType("int"));
             this.addJavadocTag(method);
-            if (inter==null) {
+            if (inter == null) {
                 //方法注解
                 method.addAnnotation("@Override");
                 method.addAnnotation("@Transactional(readOnly = false, propagation = Propagation.REQUIRED)");
                 //方法体，逻辑代码
                 method.addBodyLine("return " + daoFieldName + "." + methodName[i] + "(mo);");
                 clazz.addMethod(method);
-            }else {
+            } else {
                 inter.addMethod(method);
             }
         }
     }
 
-    void addSelectByPrimaryKeyMethod(TopLevelClass clazz,Interface inter) {
-        String[] methodName ={"selectByPrimaryKey"};
+    void addSelectByPrimaryKeyMethod(TopLevelClass clazz, Interface inter) {
+        String[] methodName = {"selectByPrimaryKey"};
         for (int i = 0; i < methodName.length; i++) {
             // 描述 方法名
             Method method = new Method(methodName[i]);
@@ -335,20 +336,20 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
             //返回值
             method.setReturnType(new FullyQualifiedJavaType(modelName));
             this.addJavadocTag(method);
-            if (inter==null) {
+            if (inter == null) {
                 //方法注解
                 method.addAnnotation("@Override");
                 //方法体，逻辑代码
                 method.addBodyLine("return " + daoFieldName + "." + methodName[i] + "(id);");
                 clazz.addMethod(method);
-            }else {
+            } else {
                 inter.addMethod(method);
             }
         }
     }
 
-    void addUpdateByPrimaryKeySelectiveMethod(TopLevelClass clazz,Interface inter) {
-        String[] methodName ={"updateByPrimaryKeySelective"};
+    void addUpdateByPrimaryKeySelectiveMethod(TopLevelClass clazz, Interface inter) {
+        String[] methodName = {"updateByPrimaryKeySelective"};
         for (int i = 0; i < methodName.length; i++) {
             // 描述 方法名
             Method method = new Method(methodName[i]);
@@ -359,21 +360,21 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
             //返回值
             method.setReturnType(new FullyQualifiedJavaType("int"));
             this.addJavadocTag(method);
-            if (inter==null) {
+            if (inter == null) {
                 //方法注解
                 method.addAnnotation("@Override");
                 method.addAnnotation("@Transactional(readOnly = false, propagation = Propagation.REQUIRED)");
                 //方法体，逻辑代码
                 method.addBodyLine("return " + daoFieldName + "." + methodName[i] + "(mo);");
                 clazz.addMethod(method);
-            }else {
+            } else {
                 inter.addMethod(method);
             }
         }
     }
 
-    void addUpdateByPrimaryKeyMethod(TopLevelClass clazz,Interface inter) {
-        String[] methodName ={"updateByPrimaryKey"};
+    void addUpdateByPrimaryKeyMethod(TopLevelClass clazz, Interface inter) {
+        String[] methodName = {"updateByPrimaryKey"};
         for (int i = 0; i < methodName.length; i++) {
             // 描述 方法名
             Method method = new Method(methodName[i]);
@@ -384,21 +385,21 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
             //返回值
             method.setReturnType(new FullyQualifiedJavaType("int"));
             this.addJavadocTag(method);
-            if (inter==null){
+            if (inter == null) {
                 //方法注解
                 method.addAnnotation("@Override");
                 method.addAnnotation("@Transactional(readOnly = false, propagation = Propagation.REQUIRED)");
                 //方法体，逻辑代码
                 method.addBodyLine("return " + daoFieldName + "." + methodName[i] + "(mo);");
                 clazz.addMethod(method);
-            }else {
+            } else {
                 inter.addMethod(method);
             }
         }
     }
 
-    void addDeleteByPrimaryKeyMethod(TopLevelClass clazz,Interface inter) {
-        String[] methodName ={"deleteByPrimaryKey"};
+    void addDeleteByPrimaryKeyMethod(TopLevelClass clazz, Interface inter) {
+        String[] methodName = {"deleteByPrimaryKey"};
         for (int i = 0; i < methodName.length; i++) {
             // 描述 方法名
             Method method = new Method(methodName[i]);
@@ -409,14 +410,14 @@ public class ServiceAndControllerGeneratorPlugin extends PluginAdapter {
             //返回值
             method.setReturnType(new FullyQualifiedJavaType("int"));
             this.addJavadocTag(method);
-            if (inter==null){
+            if (inter == null) {
                 //方法注解
                 method.addAnnotation("@Override");
                 method.addAnnotation("@Transactional(readOnly = false, propagation = Propagation.REQUIRED)");
                 //方法体，逻辑代码
                 method.addBodyLine("return " + daoFieldName + "." + methodName[i] + "(id);");
                 clazz.addMethod(method);
-            }else {
+            } else {
                 inter.addMethod(method);
             }
         }

@@ -22,7 +22,7 @@ import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 public class MyXmlGenerator extends AbstractXmlElementGenerator {
     //private SqlMapperGenerator sqlMapperGenerator;
 
-    public MyXmlGenerator( Context context,IntrospectedTable introspectedTable) {
+    public MyXmlGenerator(Context context, IntrospectedTable introspectedTable) {
         this.introspectedTable = introspectedTable;
         this.context = context;
     }
@@ -30,13 +30,13 @@ public class MyXmlGenerator extends AbstractXmlElementGenerator {
     @Override
     public void addElements(XmlElement parentElement) {
         //排除不需要的默认sql
-        List<Element> elements =  parentElement.getElements();
+        List<Element> elements = parentElement.getElements();
         Iterator<Element> iterator = elements.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Element next = iterator.next();
-            XmlElement xele=(XmlElement)next;
+            XmlElement xele = (XmlElement) next;
             List<Attribute> attributes = xele.getAttributes();
-            if(isRemove(attributes.get(0))){
+            if (isRemove(attributes.get(0))) {
                 iterator.remove();
                 //break;
             }
@@ -48,15 +48,14 @@ public class MyXmlGenerator extends AbstractXmlElementGenerator {
 
     /**
      * 判断是否是需要排除的sql
+     *
      * @param attribute
      * @return
      */
     private boolean isRemove(Attribute attribute) {
-        if (attribute.getName().equals("id")){
+        if (attribute.getName().equals("id")) {
             //排除id ="xxxx"的sql
-            if(attribute.getValue().equals("xxxx")){
-                return true;
-            }
+            return attribute.getValue().equals("xxxx");
         }
         return false;
     }
@@ -199,7 +198,7 @@ public class MyXmlGenerator extends AbstractXmlElementGenerator {
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
                     .getParameterClause(introspectedColumn));
-           // answer.addElement(new TextElement(sb.toString()));
+            // answer.addElement(new TextElement(sb.toString()));
         }
 
         if (context.getPlugins()

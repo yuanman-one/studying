@@ -32,5 +32,21 @@
     delete from school_class
     where ID = #{id,jdbcType=INTEGER}
   </delete>
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
+    select 
+    <include refid="Base_Column_List" />
+    from school_class
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" parameterType="com.example.springbootdemo.model.SchoolClass" resultType="java.lang.Long">
+    <!--  WARNING - @mbg.generated 自动生成的标识，请不要删除 -->
+    select count(*) from school_class
+    <where>
+      <if test="className != null">
+        CLASS_NAME = #{className,jdbcType=VARCHAR},
+      </if>
+    </where>
+  </select>
 
 </mapper>

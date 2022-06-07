@@ -2,7 +2,10 @@ package com.example.springbootdemo.utilMBGenerator.impl;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
-import org.mybatis.generator.api.dom.java.*;
+import org.mybatis.generator.api.dom.java.Field;
+import org.mybatis.generator.api.dom.java.JavaElement;
+import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.internal.DefaultCommentGenerator;
@@ -16,13 +19,17 @@ import java.util.Properties;
  * 自定义注释生成器
  */
 public class MyCommentGenerator extends DefaultCommentGenerator {
-    private Properties properties = new Properties();
+    private final Properties properties = new Properties();
     private boolean suppressDate = false;
     private boolean suppressAllComments = false;
     private boolean addRemarkComments = false;
-    private boolean markAsDoNotDelete = false;
-    private SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy/MM/dd");
+    private final boolean markAsDoNotDelete = false;
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
     private String author = null;
+
+    public MyCommentGenerator() {
+        super();
+    }
 
     /**
      * 设置用户配置的参数
@@ -36,19 +43,14 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
         this.addRemarkComments = StringUtility.isTrue(properties.getProperty("addRemarkComments"));
         String dateFormat = properties.getProperty("dateFormat");
         if (StringUtility.stringHasValue(dateFormat)
-                &&!dateFormat.equals("${dateFormat}")) {
+                && !dateFormat.equals("${dateFormat}")) {
             this.simpleDateFormat = new SimpleDateFormat(dateFormat);
         }
 
         if (StringUtility.stringHasValue(properties.getProperty("author"))
-                &&"${author}".equals(properties.getProperty("author"))) {
+                && "${author}".equals(properties.getProperty("author"))) {
             this.author = properties.getProperty("author");
         }
-    }
-
-
-    public MyCommentGenerator() {
-        super();
     }
 
     /**
@@ -76,7 +78,6 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
                 sb.append('.');
                 xmlElement.addElement(new TextElement(sb.toString()));
             }
-
             //xmlElement.addElement(new TextElement("-->"));
         }
     }
@@ -143,7 +144,7 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
                 }
             }
             this.addJavadocTag(topLevelClass, markAsDoNotDelete);
-            if (author!=null){
+            if (author != null) {
                 topLevelClass.addJavaDocLine(" * @author " + author);
             }
             topLevelClass.addJavaDocLine(" * @date " + simpleDateFormat.format(new Date()));
@@ -220,13 +221,13 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
         }
         this.addJavadocTag(field, markAsDoNotDelete);
         field.addJavaDocLine(" */");
-       // field.addAnnotation("");
+        // field.addAnnotation("");
         //判断是否可以为null，不可以为null则添加校验注解
         if (!introspectedColumn.isNullable()) {
             if (field.getType().getShortName().equals("String")) {
                 field.addAnnotation("@NotBlank");
-            }else {
-                if (!field.getName().equals("id")){
+            } else {
+                if (!field.getName().equals("id")) {
                     field.addAnnotation("@NotNull");
                 }
             }

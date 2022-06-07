@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 public class DeleteByIdElementGenerator extends DeleteByPrimaryKeyElementGenerator {
 
-    private boolean isSimple;
+    private final boolean isSimple;
 
     public DeleteByIdElementGenerator(boolean isSimple) {
         super(isSimple);
@@ -30,7 +30,7 @@ public class DeleteByIdElementGenerator extends DeleteByPrimaryKeyElementGenerat
         } else if (this.introspectedTable.getPrimaryKeyColumns().size() > 1) {
             parameterClass = "map";
         } else {
-            parameterClass = ((IntrospectedColumn)this.introspectedTable.getPrimaryKeyColumns().get(0)).getFullyQualifiedJavaType().toString();
+            parameterClass = this.introspectedTable.getPrimaryKeyColumns().get(0).getFullyQualifiedJavaType().toString();
         }
 
         answer.addAttribute(new Attribute("parameterType", parameterClass));
@@ -42,8 +42,8 @@ public class DeleteByIdElementGenerator extends DeleteByPrimaryKeyElementGenerat
         boolean and = false;
         Iterator var6 = this.introspectedTable.getPrimaryKeyColumns().iterator();
 
-        while(var6.hasNext()) {
-            IntrospectedColumn introspectedColumn = (IntrospectedColumn)var6.next();
+        while (var6.hasNext()) {
+            IntrospectedColumn introspectedColumn = (IntrospectedColumn) var6.next();
             sb.setLength(0);
             if (and) {
                 sb.append("  and ");
