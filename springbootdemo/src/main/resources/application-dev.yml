@@ -9,3 +9,8 @@ spring:
     hikari:
       data-source-properties:
         nullCatalogMeansCurrent: true
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5276
+    username: guest
+    password: guest
