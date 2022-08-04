@@ -1,12 +1,16 @@
 package com.example.springbootdemo.rabbitmq;
 
 import com.example.springbootdemo.rabbitmq.config.RabbitMQConfig;
+import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -25,17 +29,33 @@ import java.util.Map;
 @Component
 @Slf4j
 public class RabbitMQConsumer {
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * 是
+     * 简单
+     *
      * @param map
      */
     @RabbitListener(queuesToDeclare = @Queue(RabbitMQConfig.DIRECT_EXCHANGE_TOPIC))
-    public void getMall(Map map) {
-        log.info("接收到Mall信息：{}", map.toString());
+    public void getDirectMsg(Map map,Channel channel, Message message) throws IOException {
+        log.info("接收到DirectMsg信息时间：{}",sdf.format(new Date()));
+        log.info("接收到DirectMsg信息：{}", map.toString());
+        //手动确认消息
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),true);
     }
-    //    @RabbitHandler
-    //    public void getMall(Map map) {
-    //        log.info("接收到Mall信息：{}", map.toString());
-    //    }
+    @RabbitListener(queuesToDeclare = @Queue(RabbitMQConfig.FANOUT_EXCHANGE_QUEUE_TOPIC_A))
+    public void getFanoutA(String json,Channel channel, Message message) throws IOException {
+        log.info("getFanoutA接收到信息时间：{}",sdf.format(new Date()));
+        log.info("getFanoutA接收到信息：{}", json);
+        //手动确认消息
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),true);
+    }
+    @RabbitListener(queuesToDeclare = @Queue(RabbitMQConfig.FANOUT_EXCHANGE_QUEUE_TOPIC_B))
+    public void getFanoutB(String json,Channel channel, Message message) throws IOException {
+        log.info("getFanoutB接收到信息时间：{}",sdf.format(new Date()));
+        log.info("getFanoutB接收到信息：{}", json);
+        //手动确认消息
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),true);
+    }
+
 }

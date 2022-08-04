@@ -1,5 +1,9 @@
 package com.example.springbootdemo.rabbitmq.service;
 
+import org.springframework.ui.ModelMap;
+
 public interface RabbitMQService {
-    String sendMallMsg(String msg) throws Exception;
+    ModelMap sendDirectMsg(String msg) throws Exception;
+
+    ModelMap sendFanoutMsg(String msg) throws Exception;
 }

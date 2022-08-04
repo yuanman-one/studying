@@ -4,24 +4,19 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-
-import javax.annotation.Resource;
 
 /**
+ *  Direct Exchange
+ * 见文知意，直连交换机意思是此交换机需要绑定一个队列，要求该消息与一个特定的路由键完全匹配。
+ * 简单点说就是一对一的，点对点的发送。
+ * 这种类型需要配置routing key
  * @author yuanman
  */
 @Configuration
-public class DirectRabbitConfig implements BeanPostProcessor {
-
-    @Resource
-    private RabbitAdmin rabbitAdmin;
+public class DirectRabbitConfig  {
 
     @Bean
     public Queue rabbitmqDirectQueue() {
@@ -52,13 +47,4 @@ public class DirectRabbitConfig implements BeanPostProcessor {
                 .with(RabbitMQConfig.DIRECT_EXCHANGE_DIRECT_ROUTING);
     }
 
-    @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        //创建交换机
-        //rabbitAdmin.declareExchange(rabbitmqDirectExchange());
-        //创建队列
-        //rabbitAdmin.declareQueue(rabbitmqDirectQueue());
-        return null;
-        //return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
-    }
 }

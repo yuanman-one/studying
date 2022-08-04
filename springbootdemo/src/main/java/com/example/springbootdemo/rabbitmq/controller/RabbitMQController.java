@@ -1,6 +1,7 @@
 package com.example.springbootdemo.rabbitmq.controller;
 
 import com.example.springbootdemo.rabbitmq.service.RabbitMQService;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,10 +19,14 @@ public class RabbitMQController {
     private RabbitMQService rabbitMQService;
     /**
      * 发送消息
-     * @author java技术爱好者
+     * @return
      */
-    @PostMapping("/sendMsg")
-    public String sendMsg(@RequestParam(name = "msg") String msg) throws Exception {
-        return rabbitMQService.sendMallMsg(msg);
+    @PostMapping("/sendDirectMsg")
+    public ModelMap sendDirectMsg(@RequestParam(name = "msg") String msg) throws Exception {
+        return rabbitMQService.sendDirectMsg(msg);
+    }
+    @PostMapping("/sendFanoutMsg")
+    public ModelMap sendFanoutMsg(@RequestParam(name = "msg") String msg) throws Exception {
+        return rabbitMQService.sendFanoutMsg(msg);
     }
 }

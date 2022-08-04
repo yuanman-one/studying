@@ -48,7 +48,7 @@ public class JsonUtil {
             json = mapper.writeValueAsString(data);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            //log.error("[{}] toJsonString error：{{}}", data.getClass().getSimpleName(), e);
+            log.error("[{}] toJsonString error：{{}}", data.getClass().getSimpleName(), e);
         }
         return json;
     }
@@ -67,7 +67,7 @@ public class JsonUtil {
             t = mapper.readValue(json, clazz);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            //log.error(" parse json [{}] to class [{}] error：{{}}", json, clazz.getSimpleName(), e);
+            log.error(" parse json [{}] to class [{}] error：{{}}", json, clazz.getSimpleName(), e);
         }
         return t;
     }
@@ -86,6 +86,7 @@ public class JsonUtil {
             resultList = mapper.readValue(json, javaType);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            log.error(" toList json [{}] to class [{}] error：{{}}", json, beanType.getSimpleName(), e);
         }
         return resultList;
     }
@@ -104,6 +105,7 @@ public class JsonUtil {
             resultSet = mapper.readValue(json, javaType);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            log.error(" toSet json [{}] to class [{}] error：{{}}", json, elementType.getSimpleName(), e);
         }
         return resultSet;
     }
@@ -124,6 +126,7 @@ public class JsonUtil {
             resultMap = mapper.readValue(json, javaType);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            log.error(" toMap json [{}] to class Map error：{{}}", json, e);
         }
         return resultMap;
     }
@@ -140,6 +143,7 @@ public class JsonUtil {
             jsonNode = mapper.readValue(json, JsonNode.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
+            log.error(" toJsonNode json [{}] to class [{}] error：{{}}", JsonNode.class.getSimpleName(), e);
         }
         return jsonNode;
     }
