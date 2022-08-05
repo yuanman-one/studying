@@ -10,11 +10,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * rabbitmq消息确认回调
+ *
  * @author yuanman
  */
 @Slf4j
 @Configuration
 public class RabbitCallbackConfig implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
+
+    /**
+     * 给rabbitTemplate设置回调
+     * @param connectionFactory
+     * @return
+     */
     @Bean
     RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -25,6 +33,12 @@ public class RabbitCallbackConfig implements RabbitTemplate.ConfirmCallback, Rab
         return rabbitTemplate;
     }
 
+    /**
+     * 发送到rabbitmq交换机是回调
+     * @param correlationData
+     * @param ack
+     * @param cause
+     */
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         if (!ack) {
@@ -38,6 +52,10 @@ public class RabbitCallbackConfig implements RabbitTemplate.ConfirmCallback, Rab
         }
     }
 
+    /**
+     * rabbitmq交换机发送给队列的回调
+     * @param returnedMessage
+     */
     @Override
     public void returnedMessage(ReturnedMessage returnedMessage) {
         Message message = returnedMessage.getMessage();
