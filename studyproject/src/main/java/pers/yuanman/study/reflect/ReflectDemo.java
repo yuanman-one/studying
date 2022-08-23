@@ -18,6 +18,9 @@ import java.util.stream.Collectors;
  */
 public class ReflectDemo {
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchFieldException {
+        byte[] b = new byte[4];
+        String s="4d5a";
+        byte[] bytes = s.getBytes();
         //三种反射方式演示方法
         //1.全类名加载，将字节码文件加载进内存，返回class对象
         Class<?> aClass1 = Class.forName("pers.yuanman.study.base.model.Cat");

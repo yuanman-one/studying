@@ -8,6 +8,9 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *  Direct Exchange
  * 见文知意，直连交换机意思是此交换机需要绑定一个队列，要求该消息与一个特定的路由键完全匹配。
@@ -25,6 +28,7 @@ public class DirectRabbitConfig  {
          * 2、durable: 是否持久化
          * 3、exclusive: 是否独享、排外的。如果设置为true，定义为排他队列。则只有创建者可以使用此队列。也就是private私有的。
          * 4、autoDelete: 是否自动删除。也就是临时队列。当最后一个消费者断开连接后，会自动删除。
+         * 5.arguments 绑定死信交换机死信队列
          * */
         return new Queue(RabbitMQConfig.DIRECT_EXCHANGE_TOPIC, true, false, false);
     }

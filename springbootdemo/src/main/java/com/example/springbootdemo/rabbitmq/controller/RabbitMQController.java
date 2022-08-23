@@ -17,16 +17,24 @@ import javax.annotation.Resource;
 public class RabbitMQController {
     @Resource
     private RabbitMQService rabbitMQService;
+
     /**
      * 发送消息
+     *
      * @return
      */
     @PostMapping("/sendDirectMsg")
     public ModelMap sendDirectMsg(@RequestParam(name = "msg") String msg) throws Exception {
         return rabbitMQService.sendDirectMsg(msg);
     }
+
     @PostMapping("/sendFanoutMsg")
     public ModelMap sendFanoutMsg(@RequestParam(name = "msg") String msg) throws Exception {
         return rabbitMQService.sendFanoutMsg(msg);
+    }
+
+    @PostMapping("/sendDelayMsg")
+    public ModelMap sendFanoutMsg(@RequestParam(name = "msg") String msg, String type) throws Exception {
+        return rabbitMQService.sendDelayMsg(msg, type);
     }
 }
