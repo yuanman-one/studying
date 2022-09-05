@@ -17,6 +17,12 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>groupId</groupId>
+            <artifactId>batis-generator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <!--Web启动器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
